@@ -1,5 +1,5 @@
 {
-  "name": "yii-elfinder",
+  "name": "avitamin/yii-elfinder",
   "description": "Extension to use elFinder 1.x file manager in yii 1 application",
   "keywords": [
     "widget",
