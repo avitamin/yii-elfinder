@@ -1,25 +1,9 @@
 <?php
 
-/**
- * Created by JetBrains PhpStorm.
- * User: z_bodya
- * Date: 6/20/12
- * Time: 7:41 PM
- * To change this template use File | Settings | File Templates.
- */
-class ElFinderWidget extends CWidget
+
+trait FileInputTrait
 {
-    /**
-     * Client settings.
-     * More about this: https://github.com/Studio-42/elFinder/wiki/Client-configuration-options
-     * @var array
-     */
-    public $settings = array();
-    public $connectorRoute = false;
-    private $assetsDir;
-
-
-    public function init()
+    protected function defaultInit()
     {
         $dir = dirname(__FILE__) . '/assets';
         $this->assetsDir = Yii::app()->assetManager->publish($dir);
@@ -28,8 +12,8 @@ class ElFinderWidget extends CWidget
         if (Yii::app()->getRequest()->enableCsrfValidation) {
             $csrfTokenName = Yii::app()->request->csrfTokenName;
             $csrfToken = Yii::app()->request->csrfToken;
-            Yii::app()->clientScript->registerMetaTag($csrfToken, 'csrf-token', null, array(), 'csrf-token');
-            Yii::app()->clientScript->registerMetaTag($csrfTokenName, 'csrf-param', null, array(), 'csrf-param');
+            Yii::app()->clientScript->registerMetaTag($csrfToken, 'csrf-token');
+            Yii::app()->clientScript->registerMetaTag($csrfTokenName, 'csrf-param');
         }
 
         // jQuery and jQuery UI
@@ -99,14 +83,4 @@ class ElFinderWidget extends CWidget
         $this->settings['url'] = Yii::app()->createUrl($this->connectorRoute);
         $this->settings['lang'] = Yii::app()->language;
     }
-
-    public function run()
-    {
-        $id = $this->getId();
-        $settings = CJavaScript::encode($this->settings);
-        $cs = Yii::app()->getClientScript();
-        $cs->registerScript("elFinder#$id", "$('#$id').elfinder($settings);");
-        echo "<div id=\"$id\"></div>";
-    }
-
 }

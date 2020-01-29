@@ -12,6 +12,5 @@ class ElFinderConnectorAction extends CAction
         require_once(dirname(__FILE__) . '/php/elFinder.class.php');
         $fm = new elFinder($this->settings);
         $fm->run();
-
     }
 }

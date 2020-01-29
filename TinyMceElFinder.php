@@ -19,7 +19,7 @@ class TinyMceElFinder extends TinyMceFileManager
         if (Yii::app()->getRequest()->enableCsrfValidation) {
             $csrfTokenName = Yii::app()->request->csrfTokenName;
             $csrfToken = Yii::app()->request->csrfToken;
-            Yii::app()->clientScript->registerMetaTag($csrfToken, 'csrf-token', null, array(),'csrf-token');
+            Yii::app()->clientScript->registerMetaTag($csrfToken, 'csrf-token', null, array(), 'csrf-token');
             Yii::app()->clientScript->registerMetaTag($csrfTokenName, 'csrf-param', null, array(), 'csrf-param');
         }
 
@@ -41,42 +41,74 @@ class TinyMceElFinder extends TinyMceFileManager
             $cs->registerScriptFile($this->assetsDir . '/js/elfinder.min.js');
         }
         // elFinder translation
-        $langs = array('bg', 'jp', 'sk', 'cs', 'ko', 'th', 'de', 'lv', 'tr', 'el', 'nl', 'uk',
-            'es', 'no', 'vi', 'fr', 'pl', 'zh_CN', 'hr', 'pt_BR', 'zh_TW', 'hu', 'ro', 'it', 'ru');
+        $langs = array(
+            'bg',
+            'jp',
+            'sk',
+            'cs',
+            'ko',
+            'th',
+            'de',
+            'lv',
+            'tr',
+            'el',
+            'nl',
+            'uk',
+            'es',
+            'no',
+            'vi',
+            'fr',
+            'pl',
+            'zh_CN',
+            'hr',
+            'pt_BR',
+            'zh_TW',
+            'hu',
+            'ro',
+            'it',
+            'ru'
+        );
         $lang = Yii::app()->language;
         if (!in_array($lang, $langs)) {
             if (strpos($lang, '_')) {
                 $lang = substr($lang, 0, strpos($lang, '_'));
-                if (!in_array($lang, $langs)) $lang = false;
+                if (!in_array($lang, $langs)) {
+                    $lang = false;
+                }
             } else {
                 $lang = false;
             }
         }
-        if ($lang !== false)
+        if ($lang !== false) {
             $cs->registerScriptFile($this->assetsDir . '/js/i18n/elfinder.' . $lang . '.js');
+        }
 
         // set required options
-        if (empty($this->connectorRoute))
+        if (empty($this->connectorRoute)) {
             throw new CException('$connectorRoute must be set!');
+        }
         $this->settings['url'] = Yii::app()->createUrl($this->connectorRoute);
         $this->settings['lang'] = Yii::app()->language;
     }
 
     public function getId()
     {
-        if ($this->_id !== null)
+        if ($this->_id !== null) {
             return $this->_id;
-        else
+        } else {
             return $this->_id = 'elfd' . self::$_counter++;
+        }
     }
 
     public function getFileBrowserCallback()
     {
         $connectorUrl = $this->settings['url'];
         $id = $this->getId();
-        $settings = array_merge(array(
+        $settings = array_merge(
+            array(
                 'places' => "",
-                'rememberLastDir' => false,),
+                'rememberLastDir' => false,
+            ),
             $this->settings
         );
 
